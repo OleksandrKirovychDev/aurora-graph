@@ -25,6 +25,10 @@ message RegisterRequest {
   string password = 3;
 }
 
+message GetAccountRequest {
+  uint64 id = 1;
+}
+
 message AccountResponse {
   Account account = 1;
 }
@@ -41,6 +45,6 @@ message GetAccountsResponse {
 service AccountService {
   rpc Register (RegisterRequest) returns (google.protobuf.StringValue){}
   rpc Login (LoginRequest) returns (google.protobuf.StringValue){}
-  rpc GetAccount (google.protobuf.UInt64Value) returns (AccountResponse){}
+  rpc GetAccount (GetAccountRequest) returns (AccountResponse){}
   rpc GetAccounts (GetAccountsRequest) returns (GetAccountsResponse){}
 }
