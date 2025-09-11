@@ -26,7 +26,7 @@ func NewAccountService(r Repository) Service {
 func (service *accountService) Register(ctx context.Context, name string, email string, password string) (string, error) {
 	_, err := service.repository.GetAccountByEmail(ctx, email)
 	if err == nil {
-		return "", errors.New("Account with this email already exists")
+		return "", errors.New("account with this email already exists")
 	}
 
 	hashedPassword, err := crypt.HashPassword(password)

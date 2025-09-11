@@ -8,7 +8,6 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"google.golang.org/protobuf/types/known/wrapperspb"
 )
 
 type Client struct {
@@ -63,8 +62,8 @@ func (client *Client) Login(ctx context.Context, email, password string) (string
 }
 
 func (client *Client) GetAccount(ctx context.Context, Id uint64) (*models.Account, error) {
-	response, err := client.service.GetAccount(ctx, &wrapperspb.UInt64Value{
-		Value: Id,
+	response, err := client.service.GetAccount(ctx, &pb.GetAccountRequest{
+		Id: Id,
 	})
 
 	if err != nil {
