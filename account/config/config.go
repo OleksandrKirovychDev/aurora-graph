@@ -9,7 +9,7 @@ var (
 	GRPCPort	string
 )
 
-func init() {
+func Init() {
 	DatabaseURL = os.Getenv("DATABASE_URL")
 	SecretKey = os.Getenv("SECRET_KEY")
 	Issuer = os.Getenv("ISSUER")

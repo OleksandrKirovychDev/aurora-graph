@@ -8,11 +8,17 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"github.com/tinrab/retry"
 )
 
 func main() {
+	if err := godotenv.Load(); err != nil {
+    	log.Println("No .env file found, relying on system env")
+	}
+	config.Init()
+
 	var repository internal.Repository
 
 	retry.ForeverSleep(2 * time.Second, func(_ int) (err error){
