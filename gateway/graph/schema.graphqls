@@ -1,11 +1,9 @@
-scalar Time
-
 type Account {
     id: Int!
     email: String!
     name: String!
-    createdAt: Time!
-    updatedAt: Time
+    createdAt: String!
+    updatedAt: String
 }
 
 type AuthResponse {

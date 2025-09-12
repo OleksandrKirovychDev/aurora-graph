@@ -2,16 +2,12 @@
 
 package model
 
-import (
-	"time"
-)
-
 type Account struct {
-	ID        int32      `json:"id"`
-	Email     string     `json:"email"`
-	Name      string     `json:"name"`
-	CreatedAt time.Time  `json:"createdAt"`
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+	ID        int32   `json:"id"`
+	Email     string  `json:"email"`
+	Name      string  `json:"name"`
+	CreatedAt string  `json:"createdAt"`
+	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
 type AuthResponse struct {

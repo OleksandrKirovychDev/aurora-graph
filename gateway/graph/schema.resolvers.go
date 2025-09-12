@@ -7,22 +7,62 @@ package graph
 import (
 	"aurora-graph/gateway/graph/model"
 	"context"
-	"fmt"
 )
 
 // Register is the resolver for the register field.
 func (r *mutationResolver) Register(ctx context.Context, account model.RegisterInput) (*model.AuthResponse, error) {
-	panic(fmt.Errorf("not implemented: Register - register"))
+	token, err := r.AccountClient.Register(ctx, account.Name, account.Email, account.Password)
+	if err != nil {
+		return nil, err
+	}
+	return &model.AuthResponse{Token: token}, nil
 }
 
 // Login is the resolver for the login field.
 func (r *mutationResolver) Login(ctx context.Context, account model.LoginInput) (*model.AuthResponse, error) {
-	panic(fmt.Errorf("not implemented: Login - login"))
+	token, err := r.AccountClient.Login(ctx, account.Email, account.Password)
+	if err != nil {
+		return nil, err
+	}
+	return &model.AuthResponse{Token: token}, nil
 }
 
 // Accounts is the resolver for the accounts field.
 func (r *queryResolver) Accounts(ctx context.Context, pagination *model.PaginationInput, id *int32) ([]*model.Account, error) {
-	panic(fmt.Errorf("not implemented: Accounts - accounts"))
+	if id != nil {
+		acc, err := r.AccountClient.GetAccount(ctx, uint64(*id))
+		if err != nil {
+			return nil, err
+		}
+		return []*model.Account{{
+			ID:        int32(acc.ID),
+			Email:     acc.Email,
+			Name:      acc.Name,
+			CreatedAt: acc.CreatedAt,
+			UpdatedAt: &acc.UpdatedAt,
+		}}, nil
+	}
+
+	var skip, take uint64
+	if pagination != nil {
+		skip = uint64(pagination.Skip)
+		take = uint64(pagination.Take)
+	}
+
+	accs, err := r.AccountClient.GetAccounts(ctx, skip, take)
+	if err != nil {
+		return nil, err
+	}
+
+	var result []*model.Account
+	for _, a := range accs {
+		result = append(result, &model.Account{
+			ID:    int32(a.ID),
+			Email: a.Email,
+			Name:  a.Name,
+		})
+	}
+	return result, nil
 }
 
 // Mutation returns MutationResolver implementation.
@@ -33,18 +73,3 @@ func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
-
-// !!! WARNING !!!
-// The code below was going to be deleted when updating resolvers. It has been copied here so you have
-// one last chance to move it out of harms way if you want. There are two reasons this happens:
-//  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
-//    it when you're done.
-//  - You have helper methods in this file. Move them out to keep these resolver files clean.
-/*
-	func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
-}
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
-	panic(fmt.Errorf("not implemented: Todos - todos"))
-}
-*/

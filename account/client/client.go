@@ -74,6 +74,8 @@ func (client *Client) GetAccount(ctx context.Context, Id uint64) (*models.Accoun
 		ID: response.Account.Id,
 		Email: response.Account.Email,
 		Name: response.Account.Name,
+		CreatedAt: response.Account.CreatedAt.String(),
+		UpdatedAt: response.Account.UpdatedAt.String(),
 	}, nil
 }
 
@@ -96,6 +98,8 @@ func (client *Client) GetAccounts(ctx context.Context, skip, take uint64) ([]mod
 			ID: a.Id,
 			Email: a.Email,
 			Name: a.Name,
+			CreatedAt: a.CreatedAt.String(),
+			UpdatedAt: a.UpdatedAt.String(),
 		})
 	}
 
