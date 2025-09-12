@@ -1,0 +1,38 @@
+scalar Time
+
+type Account {
+    id: Int!
+    email: String!
+    name: String!
+    createdAt: Time!
+    updatedAt: Time
+}
+
+type AuthResponse {
+    token: String!
+}
+
+input PaginationInput {
+    take: Int!
+    skip: Int!
+}
+
+input RegisterInput {
+    name: String!
+    email: String!
+    password: String!
+}
+
+input LoginInput {
+    email: String!
+    password: String!
+}
+
+type Mutation {
+    register(account: RegisterInput!): AuthResponse
+    login(account: LoginInput!): AuthResponse
+}
+
+type Query {
+    accounts(pagination: PaginationInput, id: Int): [Account!]
+}
