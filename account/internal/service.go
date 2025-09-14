@@ -24,8 +24,8 @@ func NewAccountService(r Repository) Service {
 }
 
 func (service *accountService) Register(ctx context.Context, name string, email string, password string) (string, error) {
-	_, err := service.repository.GetAccountByEmail(ctx, email)
-	if err == nil {
+	res, _ := service.repository.GetAccountByEmail(ctx, email)
+	if res != nil {
 		return "", errors.New("account with this email already exists")
 	}
 

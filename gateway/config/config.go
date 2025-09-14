@@ -8,8 +8,8 @@ var (
 	Issuer         string
 )
 
-func init() {
-	AccountUrl = os.Getenv("ACCOUNT_SERVICE_URL")
+func Init() {
+	AccountUrl = os.Getenv("ACCOUNT_URL")
 	SecretKey = os.Getenv("SECRET_KEY")
 	Issuer = os.Getenv("ISSUER")
 }

@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS accounts (
     id SERIAL PRIMARY KEY,
     email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
     name TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NULL

@@ -36,8 +36,8 @@ func main() {
 	})
 
 	defer repository.Close()
-	log.Println("Account service running")
-	service := internal.NewAccountService(repository)
 	port, _ := strconv.Atoi(config.GRPCPort)
+	log.Printf("Account service running on port %v", port)
+	service := internal.NewAccountService(repository)
 	log.Fatal(internal.ListenGRPC(service, port))
 }
