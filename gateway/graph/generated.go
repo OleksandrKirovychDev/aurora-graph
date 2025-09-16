@@ -555,14 +555,11 @@ func (ec *executionContext) _Account_createdAt(ctx context.Context, field graphq
 		return graphql.Null
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Account_createdAt(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -3066,9 +3063,6 @@ func (ec *executionContext) _Account(ctx context.Context, sel ast.SelectionSet, 
 			}
 		case "createdAt":
 			out.Values[i] = ec._Account_createdAt(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
-			}
 		case "updatedAt":
 			out.Values[i] = ec._Account_updatedAt(ctx, field, obj)
 		default:

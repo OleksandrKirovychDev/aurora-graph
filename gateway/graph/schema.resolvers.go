@@ -7,6 +7,7 @@ package graph
 import (
 	"aurora-graph/gateway/graph/model"
 	"context"
+	"time"
 )
 
 // Register is the resolver for the register field.
@@ -34,12 +35,23 @@ func (r *queryResolver) Accounts(ctx context.Context, pagination *model.Paginati
 		if err != nil {
 			return nil, err
 		}
+
+		var createdAt, updatedAt *string
+		if acc.CreatedAt != nil {
+			s := acc.CreatedAt.Format(time.RFC3339)
+			createdAt = &s
+		}
+		if acc.UpdatedAt != nil {
+			s := acc.UpdatedAt.Format(time.RFC3339)
+			updatedAt = &s
+		}
+
 		return []*model.Account{{
 			ID:        int32(acc.ID),
 			Email:     acc.Email,
 			Name:      acc.Name,
-			CreatedAt: acc.CreatedAt,
-			UpdatedAt: &acc.UpdatedAt,
+			CreatedAt: createdAt,
+			UpdatedAt: updatedAt,
 		}}, nil
 	}
 

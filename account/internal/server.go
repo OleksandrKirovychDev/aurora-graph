@@ -59,10 +59,12 @@ func (server *grpcServer) GetAccount(ctx context.Context, request *pb.GetAccount
 		return nil, err
 	}
 
+	// TODO: add times
 	return &pb.AccountResponse{
 		Account: &pb.Account{
 			Id: account.ID,
 			Name: account.Name,
+			Email: account.Email,
 		},
 	}, nil
 }

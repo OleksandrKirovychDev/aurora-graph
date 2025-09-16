@@ -2,7 +2,7 @@ type Account {
     id: Int!
     email: String!
     name: String!
-    createdAt: String!
+    createdAt: String
     updatedAt: String
 }
 

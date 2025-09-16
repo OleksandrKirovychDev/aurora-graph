@@ -5,6 +5,7 @@ import (
 	"aurora-graph/account/proto/pb"
 	"context"
 	"log"
+	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -70,12 +71,23 @@ func (client *Client) GetAccount(ctx context.Context, Id uint64) (*models.Accoun
 		return nil, err
 	}
 
+	var createdAt, updatedAt *time.Time
+
+	if response.Account.CreatedAt != nil {
+		t := response.Account.CreatedAt.AsTime()
+		createdAt = &t
+	}
+	if response.Account.UpdatedAt != nil {
+		t := response.Account.UpdatedAt.AsTime()
+		updatedAt = &t
+	}
+
 	return &models.Account{
 		ID: response.Account.Id,
 		Email: response.Account.Email,
 		Name: response.Account.Name,
-		CreatedAt: response.Account.CreatedAt.String(),
-		UpdatedAt: response.Account.UpdatedAt.String(),
+		CreatedAt: createdAt,
+		UpdatedAt: updatedAt,
 	}, nil
 }
 
@@ -94,12 +106,23 @@ func (client *Client) GetAccounts(ctx context.Context, skip, take uint64) ([]mod
 	var accounts []models.Account
 
 	for _, a := range response.Accounts {
+		var createdAt, updatedAt *time.Time
+
+		if a.CreatedAt != nil {
+			t := a.CreatedAt.AsTime()
+			createdAt = &t
+		}
+		if a.UpdatedAt != nil {
+			t := a.UpdatedAt.AsTime()
+			updatedAt = &t
+		}
+
 		accounts = append(accounts, models.Account{
 			ID: a.Id,
 			Email: a.Email,
 			Name: a.Name,
-			CreatedAt: a.CreatedAt.String(),
-			UpdatedAt: a.UpdatedAt.String(),
+			CreatedAt: createdAt,
+			UpdatedAt: updatedAt,
 		})
 	}
 

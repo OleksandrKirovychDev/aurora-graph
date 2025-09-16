@@ -62,7 +62,7 @@ func (repository *postgresRepository) GetAccountByEmail(ctx context.Context, ema
 
 	var account models.Account
 
-	err := row.Scan(&account.ID, &account.Email, &account.Name, &account.Password, &account.CreatedAt)
+	err := row.Scan(&account.ID, &account.Name, &account.Email, &account.CreatedAt, &account.UpdatedAt)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil
@@ -75,7 +75,7 @@ func (repository *postgresRepository) GetAccountByEmail(ctx context.Context, ema
 
 func (repository *postgresRepository) GetAccountById(ctx context.Context, id uint64) (*models.Account, error) {
 	query := `
-		SELECT id, name, email, created_at
+		SELECT id, name, email, created_at, updated_at
 		FROM accounts
 		WHERE id = $1
 	`
@@ -84,7 +84,7 @@ func (repository *postgresRepository) GetAccountById(ctx context.Context, id uin
 
 	var account models.Account
 
-	err := row.Scan(&account.ID, &account.Email, &account.Name, &account.CreatedAt)
+	err := row.Scan(&account.ID, &account.Name, &account.Email, &account.CreatedAt, &account.UpdatedAt)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil

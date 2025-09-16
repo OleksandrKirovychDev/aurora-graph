@@ -6,7 +6,7 @@ type Account struct {
 	ID        int32   `json:"id"`
 	Email     string  `json:"email"`
 	Name      string  `json:"name"`
-	CreatedAt string  `json:"createdAt"`
+	CreatedAt *string `json:"createdAt,omitempty"`
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
